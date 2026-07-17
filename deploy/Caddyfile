@@ -1,0 +1,3 @@
+chhuong.supawok.com {
+	reverse_proxy <CT-wireguard-ip>:3000
+}
