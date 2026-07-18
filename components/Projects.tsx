@@ -1,5 +1,6 @@
 import { projects } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
+import ProjectCaseStudy from "./ProjectCaseStudy";
 import Reveal from "./Reveal";
 
 export default function Projects() {
@@ -12,9 +13,21 @@ export default function Projects() {
           </h2>
         </Reveal>
         <div className="mt-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
-          ))}
+          {projects.map((project, index) =>
+            project.featured ? (
+              <ProjectCaseStudy
+                key={project.title}
+                project={project}
+                delay={index * 60}
+              />
+            ) : (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                delay={index * 60}
+              />
+            )
+          )}
         </div>
       </div>
     </section>

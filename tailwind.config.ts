@@ -22,6 +22,13 @@ const config: Config = {
           "Arial",
           "sans-serif",
         ],
+        mono: [
+          "var(--font-mono)",
+          "SF Mono",
+          "ui-monospace",
+          "Menlo",
+          "monospace",
+        ],
       },
     },
   },
