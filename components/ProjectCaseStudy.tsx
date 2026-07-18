@@ -27,16 +27,21 @@ export default function ProjectCaseStudy({
       <p className="mt-3 text-muted">{project.description}</p>
 
       {project.diagram && (
-        <div className="mt-6 overflow-x-auto rounded-xl border border-hairline bg-ink-raised">
-          <div className="flex items-center gap-1.5 border-b border-hairline px-4 py-3">
-            <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
-            <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-            <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-            <span className="ml-2 text-xs text-muted">architecture.txt</span>
+        <div className="mt-6">
+          <div className="overflow-x-auto rounded-xl border border-hairline bg-ink-raised [-webkit-overflow-scrolling:touch]">
+            <div className="flex items-center gap-1.5 border-b border-hairline px-4 py-3">
+              <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+              <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+              <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
+              <span className="ml-2 text-xs text-muted">architecture.txt</span>
+            </div>
+            <pre className="px-4 py-4 font-mono text-xs leading-relaxed text-ivory [mask-image:linear-gradient(to_right,black_90%,transparent)] sm:text-sm sm:[mask-image:none]">
+              {project.diagram}
+            </pre>
           </div>
-          <pre className="px-4 py-4 font-mono text-xs leading-relaxed text-ivory sm:text-sm">
-            {project.diagram}
-          </pre>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted sm:hidden">
+            ← swipe to see full diagram →
+          </p>
         </div>
       )}
 
