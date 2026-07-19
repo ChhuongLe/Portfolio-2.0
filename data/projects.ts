@@ -34,29 +34,29 @@ export const projects: Project[] = [
     outcome:
       "Public traffic now reaches every home-lab service through a single encrypted tunnel with nothing exposed on the home network directly, and the whole chain — cloud firewall, NAT, routing — resolves symmetrically instead of silently dropping packets.",
     diagram: `Public Internet
-        │
-        ▼
-┌────────────────────────┐
-│     OCI VPS (ens3)     │  ← NSG ingress opened to 0.0.0.0/0
-└────────────────────────┘
-        │  DNAT → wg0
-        ▼
-┌────────────────────────┐
-│ WireGuard tunnel (wg0) │  ← SNAT egress, AllowedIPs 0.0.0.0/0
-└────────────────────────┘
-        │
-        ▼
-┌──────────────────────────────────────────────┐
-│         Proxmox host — 10.10.10.0/24         │
-│                                              │
-│         ┌──────────┐   ┌──────────┐          │
-│         │ Jellyfin │   │Minecraft │          │
-│         └──────────┘   └──────────┘          │
-│                                              │
-│         ┌──────────┐   ┌──────────┐          │
-│         │   KF2    │   │  Admin   │          │
-│         └──────────┘   └──────────┘          │
-└──────────────────────────────────────────────┘`,
+        |
+        v
++------------------------+
+|     OCI VPS (ens3)     |  < NSG ingress opened to 0.0.0.0/0
++------------------------+
+        |  DNAT > wg0
+        v
++------------------------+
+| WireGuard tunnel (wg0) |  < SNAT egress, AllowedIPs 0.0.0.0/0
++------------------------+
+        |
+        v
++----------------------------------------------+
+|         Proxmox host - 10.10.10.0/24         |
+|                                              |
+|         +----------+   +----------+          |
+|         | Jellyfin |   |Minecraft |          |
+|         +----------+   +----------+          |
+|                                              |
+|         +----------+   +----------+          |
+|         |   KF2    |   |  Admin   |          |
+|         +----------+   +----------+          |
++----------------------------------------------+`,
   },
   {
     title: "Zero-Touch Kiosk Fleet Provisioning",
@@ -77,34 +77,34 @@ export const projects: Project[] = [
     outcome:
       "A 50-station fleet across 4 packing-line switches now provisions in about 8 minutes a station with zero manual imaging, and every node lands in the same known-good, monitored state — no more chasing configuration drift.",
     diagram: `Packing station (VLAN 20)
-        │  DHCP discover
-        ▼
-┌────────────────────────┐
-│   OpenWRT DHCP relay   │  ← bridges VLAN 20 → core net
-└────────────────────────┘
-        │
-        ▼
-┌────────────────────────┐
-│   PXE / DHCP server    │  ← options 66/67: bootloader + path
-└────────────────────────┘
-        │
-        ▼
-┌────────────────────────┐
-│   TFTP → unattended    │
-│     Ubuntu install     │
-└────────────────────────┘
-        │
-        ▼
-┌────────────────────────┐
-│ Ansible (batches of 5) │  ← apps, printers, kiosk lockdown
-└────────────────────────┘
-        │
-        ▼
-┌────────────────────────┐
-│      Zabbix agent      │  ← state → Slack + Grafana
-└────────────────────────┘
-        │
-        ▼
+        |  DHCP discover
+        v
++------------------------+
+|   OpenWRT DHCP relay   |  < bridges VLAN 20 > core net
++------------------------+
+        |
+        v
++------------------------+
+|   PXE / DHCP server    |  < options 66/67: bootloader + path
++------------------------+
+        |
+        v
++------------------------+
+|   TFTP > unattended    |
+|     Ubuntu install     |
++------------------------+
+        |
+        v
++------------------------+
+| Ansible (batches of 5) |  < apps, printers, kiosk lockdown
++------------------------+
+        |
+        v
++------------------------+
+|      Zabbix agent      |  < state > Slack + Grafana
++------------------------+
+        |
+        v
    Kiosk ready (~8 min/station)`,
   },
 ];
