@@ -5,6 +5,7 @@ export type Project = {
   href?: string;
   featured?: boolean;
   problem?: string;
+  task?: string;
   approach?: string[];
   outcome?: string;
   diagram?: string;
@@ -61,23 +62,22 @@ export const projects: Project[] = [
   {
     title: "Self-Hosted Platform: SSO, Edge Hardening & a Custom Chat App",
     description:
-      "Gave a home-lab of media, photo and chat services one passkey login, an origin that only talks to Cloudflare, private remote admin access, and a customized fork of an open-source chat app with video calls.",
-    tags: ["OIDC / Pocket ID", "Proxmox VE", "Cloudflare", "Caddy", "iptables", "Tailscale", "LiveKit", "SolidJS", "Docker"],
+      "Secured a home-lab of media, photo and chat services behind one passkey login and a Cloudflare-only edge, and brought a custom chat-app fork up to date.",
+    tags: ["OIDC / Pocket ID", "Proxmox VE", "Cloudflare", "Caddy", "iptables", "Tailscale", "LiveKit", "SolidJS"],
     featured: true,
     problem:
-      "Every service had its own password form facing the internet, the origin answered anyone who found its IP, and one DHCP lease change was enough to knock every public site offline with Cloudflare 521s. On top of that, the self-hosted chat app had to keep up with upstream releases without losing its custom branding, SSO and video features.",
+      "Every service had its own internet-facing login, the origin accepted traffic from anyone, and one DHCP lease change took every public site offline.",
+    task:
+      "Restore service, then lock the stack down end to end and bring the chat platform's custom fork up to date without losing its features.",
     approach: [
-      "Traced the outage to the reverse-proxy container quietly picking up a new DHCP lease, breaking the router's port forward. Fixed it for good with router reservations for every service IP.",
-      "Centralized identity on a self-hosted, passkey-based OIDC provider (Pocket ID) and wired it into Jellyfin, Immich, the chat app and the Proxmox VE console. Turned off password login wherever possible and kept a TOTP-protected break-glass root account.",
-      "Locked the origin to Cloudflare with a systemd-managed iptables chain on Docker's DOCKER-USER path. It drops any new 80/443 connection that isn't from Cloudflare, the LAN or the tailnet, and it matches on the original destination port via conntrack so Docker's NAT can't slip past it.",
-      "Hardened the reverse proxy: Caddy trusts only Cloudflare as an upstream proxy, rebuilds the real client IP from CF-Connecting-IP, adds HSTS/nosniff/frame/referrer headers to every site, and rewrites X-Forwarded-For so backend lockouts and rate limits see actual clients.",
-      "Replaced exposed admin ports with a Tailscale subnet router, so the whole LAN is reachable from a phone with nothing extra open to the internet.",
-      "Ran in-place major upgrades with snapshots and rollback paths first: Jellyfin 10.11 to 12.4 including plugin migration, and the chat backend onto MongoDB 8, Valkey and S3-compatible object storage.",
-      "Rebased a custom fork of the chat web client (SolidJS + Vite) from v0.10 to v0.16. Carried over SSO login, branding, 1440p60/4K30 screen share with explicit RTCRtpSender bitrate tuning, high-quality Opus audio, and camera background blur.",
-      "Debugged a camera feed that vanished on iPhone whenever blur was on. LiveKit server logs showed the track muting seconds after publish, so I upgraded the track-processor library and made blur fail-safe: if a browser can't blur, the call keeps its video instead of dropping it.",
+      "Traced the outage to the reverse proxy losing its DHCP lease, then gave every service IP a router reservation.",
+      "Rolled out passkey SSO (Pocket ID / OIDC) across Jellyfin, Immich, the chat app and Proxmox, with a TOTP-protected break-glass root account.",
+      "Restricted the origin to Cloudflare with an iptables chain on Docker's DOCKER-USER path, hardened Caddy with real-client-IP handling and security headers, and moved admin access to a Tailscale subnet router.",
+      "Upgraded Jellyfin 10.11 to 12.4 and moved the chat backend to MongoDB 8 + Valkey, taking snapshots first.",
+      "Ported the custom SolidJS chat client from v0.10 to v0.16 (SSO, branding, 1440p60 screen share, HD audio, background blur) and fixed an iPhone camera dropout by making blur fail-safe.",
     ],
     outcome:
-      "One passkey login across every service, an origin that refuses anything that didn't come through Cloudflare, admin access only over the tailnet, and a chat app that tracks upstream while keeping its own features, with a backup and rollback path behind every upgrade.",
+      "One passkey login across every service, an origin reachable only through Cloudflare, and a chat app back on the latest upstream with all its custom features, with a rollback path behind every change.",
     diagram: `Internet
         |
         v

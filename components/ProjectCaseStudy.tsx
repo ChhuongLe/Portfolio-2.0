@@ -11,6 +11,8 @@ export default function ProjectCaseStudy({
   delay?: number;
 }) {
   const { ref, visible } = useReveal<HTMLDivElement>();
+  // Projects that include a task use STAR labels (Situation/Task/Action/Result)
+  const star = Boolean(project.task);
 
   return (
     <div
@@ -48,16 +50,25 @@ export default function ProjectCaseStudy({
       {project.problem && (
         <div className="mt-6">
           <p className="font-mono text-xs uppercase tracking-widest text-muted">
-            Problem
+            {star ? "Situation" : "Problem"}
           </p>
           <p className="mt-2 text-muted">{project.problem}</p>
+        </div>
+      )}
+
+      {project.task && (
+        <div className="mt-6">
+          <p className="font-mono text-xs uppercase tracking-widest text-muted">
+            Task
+          </p>
+          <p className="mt-2 text-muted">{project.task}</p>
         </div>
       )}
 
       {project.approach && project.approach.length > 0 && (
         <div className="mt-6">
           <p className="font-mono text-xs uppercase tracking-widest text-muted">
-            Approach
+            {star ? "Action" : "Approach"}
           </p>
           <ul className="mt-2 space-y-2">
             {project.approach.map((step, index) => (
@@ -73,7 +84,7 @@ export default function ProjectCaseStudy({
       {project.outcome && (
         <div className="mt-6">
           <p className="font-mono text-xs uppercase tracking-widest text-muted">
-            Outcome
+            {star ? "Result" : "Outcome"}
           </p>
           <p className="mt-2 text-ivory">{project.outcome}</p>
         </div>
