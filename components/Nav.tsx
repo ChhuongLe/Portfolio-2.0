@@ -26,6 +26,16 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li className="hidden whitespace-nowrap sm:block">
+            <a
+              href="/Chhuong_Le_Resume.pdf"
+              target="_blank"
+              rel="noopener"
+              className="text-accent transition-colors hover:text-ivory"
+            >
+              Resume
+            </a>
+          </li>
         </ul>
       </nav>
     </header>

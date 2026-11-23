@@ -2,6 +2,7 @@ const links = [
   { label: "Email", href: "mailto:chhuongcle@gmail.com" },
   { label: "LinkedIn", href: "https://linkedin.com/in/chhuongle" },
   { label: "GitHub", href: "https://github.com/ChhuongLe" },
+  { label: "Resume", href: "/Chhuong_Le_Resume.pdf" },
 ];
 
 export default function Contact() {

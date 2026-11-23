@@ -34,6 +34,14 @@ export default function Hero() {
           <TerminalOutput />
         </div>
       </div>
+      <a
+        href="/Chhuong_Le_Resume.pdf"
+        target="_blank"
+        rel="noopener"
+        className="mt-8 inline-flex items-center gap-2 rounded-full border border-hairline px-5 py-2.5 font-mono text-sm text-ivory transition-colors hover:border-accent hover:text-accent"
+      >
+        <span className="text-accent">↓</span> resume.pdf
+      </a>
     </section>
   );
 }
