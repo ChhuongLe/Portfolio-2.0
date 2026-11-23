@@ -15,11 +15,11 @@ export const projects: Project[] = [
   {
     title: "SSF Building Network Build-Out",
     description:
-      "Led the end-to-end network build for Neuralink's new multi-floor South San Francisco site, from racking and switch adoption through a dual-ISP cutover, with the whole site network managed as Terraform code.",
+      "Led the end-to-end network build for Neuralink's new multi-floor South San Francisco site in three weeks, from racking and switch adoption through a dual-ISP cutover, with the whole site network managed as Terraform code.",
     tags: ["FortiGate", "FortiSwitch / MCLAG", "Terraform", "802.1X / RADIUS", "IPsec / BGP", "Dual-WAN", "IPv6", "VLANs"],
     featured: true,
     problem:
-      "A new multi-floor building needed a production network from empty racks: corporate staff, labs, CI hardware-in-the-loop racks, security cameras and conference rooms all had to come online without disrupting the company's move in.",
+      "A new multi-floor building needed a production network from empty racks: corporate staff, labs, CI hardware-in-the-loop racks, security cameras and conference rooms all had to come online in three weeks, ahead of the company's move-in.",
     task:
       "Design and build the site network end to end, connect it to AWS and the other sites, cut over to new ISPs safely, and bring every firewall and switch under version-controlled code.",
     approach: [
@@ -31,7 +31,7 @@ export const projects: Project[] = [
       "Managed the firewalls, switch controller, VLANs, DHCP and security policies in Terraform with MR review and Vault-backed credentials, importing hand-built objects without touching live traffic and ending a recurring '7 to add / 1 to destroy' drift by matching resource keys to the firewall's naming.",
     ],
     outcome:
-      "The site runs on a segmented, redundant network with two ISPs, failover paths to AWS and certificate-based Wi-Fi, and every firewall and switch change now goes through code review with clean Terraform plans instead of recurring drift.",
+      "Delivered in three weeks: the site runs on a segmented, redundant network with two ISPs, failover paths to AWS and certificate-based Wi-Fi, and every firewall and switch change now goes through code review with clean Terraform plans instead of recurring drift.",
     diagram: `  ISP A 10G (primary)    ISP B 1G (failover)
             |                     |
             v                     v
