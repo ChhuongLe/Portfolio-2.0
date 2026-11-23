@@ -15,8 +15,44 @@ export const projects: Project[] = [
   {
     title: "SSF Building Network Build-Out",
     description:
-      "Designed and built the firewall and network configuration for Neuralink's new South San Francisco building from the ground up.",
-    tags: ["Firewall", "Network Architecture"],
+      "Led the end-to-end network build for Neuralink's new multi-floor South San Francisco site, from racking and switch adoption through a dual-ISP cutover, with the whole site network managed as Terraform code.",
+    tags: ["FortiGate", "FortiSwitch / MCLAG", "Terraform", "802.1X / RADIUS", "IPsec / BGP", "Dual-WAN", "IPv6", "VLANs"],
+    featured: true,
+    problem:
+      "A new multi-floor building needed a production network from empty racks: corporate staff, labs, CI hardware-in-the-loop racks, security cameras and conference rooms all had to come online without disrupting the company's move in.",
+    task:
+      "Design and build the site network end to end, connect it to AWS and the other sites, cut over to new ISPs safely, and bring every firewall and switch under version-controlled code.",
+    approach: [
+      "Designed a new /16 address plan segmented into corp, guest Wi-Fi, IoT, management, security and AV VLANs, with quarantine-by-default edge ports so a jack must be explicitly assigned before it joins corp.",
+      "Deployed a FortiGate 200F perimeter firewall and a 36-switch FortiSwitch fabric: MCLAG core pair, top-of-rack per floor, 20+ edge switches, AP-tier PoE, and cascaded lab switches for the CI runner racks, with floor uplinks moved from 10G to 100G.",
+      "Ran a staged dual-ISP cutover (10G primary, 1G failover) with IPv6 dual-stack, distance-based failover and link monitors split into transport and public-path checks, so no traffic moved until the planned on-site switchover.",
+      "Built site-to-AWS IPsec tunnels with ECMP over the primary ISP and backups over the failover ISP, plus BGP, coordinating the AWS customer-gateway change to land in the same window.",
+      "Rolled out 802.1X / EAP-TLS wireless against central RADIUS and brought the security stack online: VMS and blade servers, cameras on the security VLAN, and guard workstations.",
+      "Managed the firewalls, switch controller, VLANs, DHCP and security policies in Terraform with MR review and Vault-backed credentials, importing hand-built objects without touching live traffic and ending a recurring '7 to add / 1 to destroy' drift by matching resource keys to the firewall's naming.",
+    ],
+    outcome:
+      "The site runs on a segmented, redundant network with two ISPs, failover paths to AWS and certificate-based Wi-Fi, and every firewall and switch change now goes through code review with clean Terraform plans instead of recurring drift.",
+    diagram: `  ISP A 10G (primary)    ISP B 1G (failover)
+            |                     |
+            v                     v
++--------------------------------------------+
+|     FortiGate 200F - dual-stack IPv4/6     |
++--------------------------------------------+
+     |                          |
+     |  IPsec (ECMP) + BGP      |
+     v                          v
+   AWS                +--------------------+
+                      | MCLAG core pair    |
+                      +--------------------+
+                         |  100G uplinks
+                         v
++--------------------------------------------+
+|  ToR + edge switches per floor (36 total)  |
+|  AP PoE tier   |   lab HIL runner racks    |
++--------------------------------------------+
+  VLANs: corp | guest | IoT | mgmt | sec | AV
+  Wi-Fi: 802.1X EAP-TLS > RADIUS
+  Config: Terraform (FortiOS) + MR review`,
   },
   {
     title: "Hybrid-Cloud Infrastructure & Network Architecture",
